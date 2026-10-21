@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Golos Text", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --color-brand-50: #ecfdf3;
+  --color-brand-100: #d1fae1;
+  --color-brand-200: #a7f3c8;
+  --color-brand-300: #6ee7a8;
+  --color-brand-400: #34d37f;
+  --color-brand-500: #16b85f;
+  --color-brand-600: #00a651;
+  --color-brand-700: #008a44;
+  --color-brand-800: #056b38;
+  --color-brand-900: #065830;
+  --color-brand-950: #02321b;
+
+  --color-ink-950: #0a0b0c;
+  --color-ink-900: #121416;
+  --color-ink-800: #1c1f22;
+  --color-ink-700: #2a2e33;
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-marquee-slow: marquee 55s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-delayed: float 8s ease-in-out 1.2s infinite;
+  --animate-fade-up: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 1.2s ease-out both;
+  --animate-scale-in: scale-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-ping-slow: ping-slow 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-shimmer: shimmer 2.2s linear infinite;
+  --animate-spin-slow: spin 1.6s linear infinite;
+  --animate-pulse-soft: pulse-soft 3s ease-in-out infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-14px) rotate(-1deg);
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(1.06);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes ping-slow {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    80%,
+    100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-white font-sans text-ink-900 antialiased;
+    font-feature-settings: "ss01", "cv01";
+  }
+
+  ::selection {
+    @apply bg-brand-500/25 text-ink-950;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Scroll-reveal states, toggled by the <Reveal /> component */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal[data-variant="left"] {
+    transform: translateX(-40px);
+  }
+  .reveal[data-variant="right"] {
+    transform: translateX(40px);
+  }
+  .reveal[data-variant="zoom"] {
+    transform: scale(0.94);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .process-step-line {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: rgb(18 20 22 / 0.14);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--reveal-delay, 0ms) + 120ms);
+  }
+
+  .process-step.is-visible .process-step-line {
+    transform: scaleX(1);
+  }
+
+  .process-step:last-child .process-step-line {
+    background: var(--color-brand-700);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #how .reveal,
+    .process-step-line {
+      transition-delay: 0ms;
+    }
+  }
+
+  /* Text with brand gradient */
+  .text-gradient {
+    background: linear-gradient(100deg, #34d37f 0%, #00a651 55%, #008a44 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Subtle dotted grid background for dark sections */
+  .bg-grid-dark {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .bg-grid-light {
+    background-image:
+      linear-gradient(to right, rgb(10 11 12 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(10 11 12 / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Marquee edge fade */
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+
+  /* Pause marquee on hover */
+  .marquee-track:hover .marquee-inner {
+    animation-play-state: paused;
+  }
+
+  /* Accordion open/close using CSS grid rows trick */
+  .accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .accordion-panel[data-open="true"] {
+    grid-template-rows: 1fr;
+  }
+  .accordion-panel > div {
+    overflow: hidden;
+  }
+
+  /* Modern form field */
+  .field {
+    @apply w-full rounded-2xl border border-ink-900/10 bg-white px-4 py-3.5 text-[15px] text-ink-900 shadow-[0_1px_2px_rgb(0_0_0/0.03)] transition-all duration-300 outline-none placeholder:text-ink-900/35;
+  }
+  .field:hover {
+    @apply border-ink-900/20;
+  }
+  .field:focus {
+    @apply border-brand-500 ring-4 ring-brand-500/15;
+  }
+
+  /* Glow blob */
+  .blob {
+    filter: blur(80px);
+    pointer-events: none;
+  }
+}
