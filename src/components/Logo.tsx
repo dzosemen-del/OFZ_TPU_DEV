@@ -13,16 +13,7 @@ type LogoProps = {
 /**
  * Official mark: the 3D isometric green-and-black cube of Tomsk Polytechnic University.
  */
-export function LogoMark({ className }: { className?: string }) {
-  return (
-    <img
-      src={tpuMark}
-      alt="Знак ТПУ"
-      className={cn("h-10 w-auto object-contain select-none", className)}
-      draggable={false}
-    />
-  );
-}
+
 
 /**
  * Official TPU logo (full horizontal block): isometric cube mark + "ТОМСКИЙ ПОЛИТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ"
