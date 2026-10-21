@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 // https://vite.dev/config/
 export default defineConfig({
   // Замените 'имя_репозитория' на точное название вашего репозитория на GitHub
-  base: 'OFZ_TPU_DEV', 
+  base: '/OFZ_TPU_DEV/', 
   plugins: [react(), tailwindcss(), viteSingleFile()],
   resolve: {
     alias: {
